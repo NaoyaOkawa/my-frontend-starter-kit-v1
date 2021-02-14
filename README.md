@@ -1,47 +1,292 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# my-frontend-starter-kit-v1
 
-## Getting Started
+- Yarn
+- Next.js
+- TypeScript
+- SCSS
+- Tailwind
+- ESLint
+- Stylelint
+- VSCode
+- Storybook
+- Jest
 
-First, run the development server:
+## Yarn
+
+### インストール
 
 ```bash
-npm run dev
-# or
+npm install -g yarn
+```
+
+### 参考
+
+<https://yarnpkg.com/getting-started/install>
+
+## Next.js
+
+### インストール
+
+```bash
+yarn create next-app hogehoge
+```
+
+```bash
+cd hogehoge
+```
+
+```bash
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+ブラウザで`http://localhost:3000`にアクセスして**Welcome to Next.js**が表示されたら完了
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### 参考
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+<https://nextjs.org/docs>
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## TypeScript
 
-## Learn More
+### インストール
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-# my-frontend-starter-kit-v1
-
+```bash
 touch tsconfig.json
-yarn add --dev typescript @types/react @types/node
-yarn dev
-Populate the tsconfig.json file for you. You may customize this file.
-Create the next-env.d.ts file, which ensures Next.js types are picked up by the TypeScript compiler. You should not touch this file.
-You can convert pages/\_app.js into pages/\_app.tsx and use the built-in type AppProps, like so:
+```
 
-pages/index.js: Update to index.tsx using this code
-pages/\_app.js: Update to \_app.tsx using this code
-pages/api/hello.js: Update to hello.ts using this code
+```bash
+yarn add --dev typescript @types/react @types/node
+```
+
+```bash
+yarn dev
+```
+
+`tsconfig.json`と`next-env.d.ts`が変更されたら完了。
+
+```diff json:tsconfig.json
++{
++  "compilerOptions": {
++    "target": "es5",
++    "lib": [
++      "dom",
++      "dom.iterable",
++      "esnext"
++    ],
++    "allowJs": true,
++    "skipLibCheck": true,
++    "strict": false,
++    "forceConsistentCasingInFileNames": true,
++    "noEmit": true,
++    "esModuleInterop": true,
++    "module": "esnext",
++    "moduleResolution": "node",
++    "resolveJsonModule": true,
++    "isolatedModules": true,
++    "jsx": "preserve"
++  },
++  "include": [
++    "next-env.d.ts",
++    "**/*.ts",
++    "**/*.tsx"
++  ],
++  "exclude": [
++    "node_modules"
++  ]
++}
+```
+
+```diff tsconfig:next-env.d.ts
+/// <reference types="next" />
++/// <reference types="next/types/global" />
+```
+
+`.js, .jsx`を`.ts, .tsx`にリネームしていく。
+
+### 参考
+
+<https://nextjs.org/learn/excel/typescript/create-tsconfig>
+
+## SCSS
+
+### インストール
+
+```bash
+ruby -v
+```
+
+```bash
+sudo gem install sass
+```
+
+```v
+sass -v
+```
+
+```v
+yarn add sass
+```
+
+```v
+touch next.config.js
+```
+
+:::message
+touch next.config.ts はエラー
+:::
+
+```bash
+Error: Configuring Next.js via 'next.config.ts' is not supported. Please replace the file with 'next.config.js'.
+```
+
+`.css`を`.scss`にリネームしていく。
+
+### 参考
+
+<https://uxmilk.jp/38108>
+
+## Tailwind
+
+### インストール
+
+:::message alert
+前提: **Next.js v10**
+:::
+
+```bash
+yarn add tailwindcss postcss postcss-flexbugs-fixes postcss-preset-env autoprefixer
+```
+
+```bash
+npx tailwindcss init -p
+```
+
+`tailwind.config.js`と`postcss.config.js`が作成される。
+
+```diff js:tailwind.config.js
++module.exports = {
++  purge: [],
++  darkMode: false, // or 'media' or 'class'
++  theme: {
++    extend: {},
++  },
++  variants: {
++    extend: {},
++  },
++  plugins: [],
++}
+```
+
+```diff js:postcss.config.js
++module.exports = {
++  plugins: {
++    tailwindcss: {},
++    autoprefixer: {},
++  },
++};
+```
+
+### 設定
+
+```diff js:tailwind.coinfig.js
+module.exports = {
+-  purge: [],
++  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  darkMode: false, // or 'media' or 'class'
+  theme: {
+    extend: {},
+  },
+  variants: {
+    extend: {},
+  },
+  plugins: [],
+};
+
+```
+
+```diff js:postcss.config.js
+module.exports = {
+-  plugins: {
+-    tailwindcss: {},
+-    autoprefixer: {},
+-  },
++  plugins: [
++    "tailwindcss",
++    "autoprefixer",
++    "postcss-flexbugs-fixes",
++    [
++      "postcss-preset-env",
++      {
++        autoprefixer: {
++          flexbox: "no-2009",
++        },
++        stage: 3,
++        features: {
++          "custom-properties": false,
++        },
++      },
++    ],
++  ],
+};
+```
+
+### 動作確認
+
+一部の記述を Tailwind に変更してみる。
+
+```diff sass:globals.scss
+html,body {
++  @apply p-0 m-0;
+-  padding: 0;
+-  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+```
+
+![](https://storage.googleapis.com/zenn-user-upload/xghxqkja6w155rppcp6s427t8jf4)
+_変更前_
+
+![](https://storage.googleapis.com/zenn-user-upload/0i15jagtste74f0vyezcwebxdi6y)
+_変更後_
+
+### 参考
+
+<https://tailwindcss.com/docs/guides/nextjs>
+
+<https://nextjs.org/learn/basics/assets-metadata-css/styling-tips>
+
+## Stylelint
+
+### インストール
+
+```bash
+yarn add --dev stylelint stylelint-config-standard stylelint-scss stylelint-config-prettier stylelint-config-recess-order
+```
+
+### 設定
+
+```bash
+touch stylelint.config.js
+```
+
+```js:stylelint.config.js
+module.exports = {
+  plugins: ["stylelint-scss"],
+  extends: [
+    "stylelint-config-standard",
+    "stylelint-config-prettier",
+    "stylelint-config-recess-order",
+  ],
+  rules: {
+    "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": true,
+    "declaration-block-trailing-semicolon": null,
+    "no-descending-specificity": null,
+    "block-no-empty": false,
+  },
+};
+```
+
+### 参考
+
+<https://dev.to/oliverandrich/vscode-stylelint-tailwind-css-3oag>
