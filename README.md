@@ -34,3 +34,14 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 # my-frontend-starter-kit-v1
+
+touch tsconfig.json
+yarn add --dev typescript @types/react @types/node
+yarn dev
+Populate the tsconfig.json file for you. You may customize this file.
+Create the next-env.d.ts file, which ensures Next.js types are picked up by the TypeScript compiler. You should not touch this file.
+You can convert pages/\_app.js into pages/\_app.tsx and use the built-in type AppProps, like so:
+
+pages/index.js: Update to index.tsx using this code
+pages/\_app.js: Update to \_app.tsx using this code
+pages/api/hello.js: Update to hello.ts using this code
